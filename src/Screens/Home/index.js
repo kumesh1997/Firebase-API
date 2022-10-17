@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Home() {
 
-  let history = useNavigate();
+  const navigate = useNavigate();
   const [student, setStudent] = useState([]);
   const studentsCollectionReference = collection(db, "students");
   
@@ -23,11 +23,19 @@ function Home() {
    const deleteHandler = async ( stdId ) => {
     const studentDoc = doc(db, "students", stdId )
     await deleteDoc(studentDoc);
-    history("/");
+    navigate("/");
+  }
+
+  const editHandler = (id,Name,Address,DOB,GPA) => {
+      localStorage.setItem('Id', id);
+      localStorage.setItem('Name', Name);
+      localStorage.setItem('Address', Address);
+      localStorage.setItem('DOB', DOB);
+      localStorage.setItem('GPA', GPA);
   }
 
   return (
-    <div>
+    <div className='container'>
       <div><Link to={'/modal'}><button type="button" class="btn btn-primary">Add New Student</button></Link></div>
       <table class="table table-dark table-striped">
   <thead>
@@ -51,7 +59,7 @@ function Home() {
           <td>{std.GPA}</td>
           <td>
             <Link to={'/edit'}>
-              <button type="button" class="btn btn-primary" >Update</button>
+              <button type="button" class="btn btn-primary" onClick={() => {editHandler(std.id,std.Name, std.Address, std.DOB, std.GPA)}} >Edit</button>
             </Link>
           &nbsp;
           <button type="button" class="btn btn-danger" onClick={() => {deleteHandler(std.id)}}>Delete</button>

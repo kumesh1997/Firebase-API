@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from "react";
 import { db } from "../../firebase-config";
 import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
@@ -10,6 +10,7 @@ function Edit() {
   const studentsCollectionReference = collection(db, "students");
 
   // consts
+  const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [dob, setDob] = useState("");
@@ -22,17 +23,25 @@ function Edit() {
     await updateDoc(studentDoc, updatedStudent);
   }
 
+  useEffect(() => {
+    setId(localStorage.getItem('Id'));
+    setName(localStorage.getItem('Name'));
+    setAddress(localStorage.getItem('Address'));
+    setDob(localStorage.getItem('DOB'));
+    setGpa(localStorage.getItem('GPA'));
+  }, []);
+
   return (
     <div>
         <form >
-            <input placeholder="Name..."  onChange={(e) => {setName(e.target.value)}}/>
-            <input placeholder="Address"  onChange={(e) => {setAddress(e.target.value)}}/>
-            <input placeholder="Birth Day"  onChange={(e) => {setDob(e.target.value)}}/>
-            <input placeholder="GPA"  onChange={(e) => {setGpa(e.target.value)}}/>
+            <input placeholder="Name..." value={name}  onChange={(e) => {setName(e.target.value)}}/>
+            <input placeholder="Address" value={address}  onChange={(e) => {setAddress(e.target.value)}}/>
+            <input placeholder="Birth Day" value={dob}  onChange={(e) => {setDob(e.target.value)}}/>
+            <input placeholder="GPA" value={gpa} onChange={(e) => {setGpa(e.target.value)}}/>
             <div>
             <Link to={'/'}><button type="button" class="btn btn-danger">Cancel</button></Link>
               &nbsp;
-            <Link to={'/'}><button type="button" class="btn btn-success" onClick={updateHandler} >Update</button></Link>
+            <Link to={'/'}><button type="button" class="btn btn-success" onClick={() => {updateHandler(id,name,address,dob,gpa)}} >Update</button></Link>
             </div>
             </form>
     </div>

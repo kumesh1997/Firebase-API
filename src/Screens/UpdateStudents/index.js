@@ -22,8 +22,8 @@ function UpdateStudents() {
   }
 
   return (
-    <div>
-         <form >
+    <div className=' container'>
+         <form>
             <input placeholder="Name..."  onChange={(e) => {setName(e.target.value)}}/>
             <input placeholder="Address"  onChange={(e) => {setAddress(e.target.value)}}/>
             <input placeholder="Birth Day"  onChange={(e) => {setDob(e.target.value)}}/>
