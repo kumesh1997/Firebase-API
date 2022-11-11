@@ -3,9 +3,13 @@ import { useEffect } from "react";
 import { db } from "../../firebase-config";
 import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Home() {
 
+  const dispatchAdd = useDispatch();
+  const students = useSelector((state) => state );
+  console.log(students);
   const navigate = useNavigate();
   const [student, setStudent] = useState([]);
   const studentsCollectionReference = collection(db, "students");
@@ -32,6 +36,9 @@ function Home() {
       localStorage.setItem('Address', Address);
       localStorage.setItem('DOB', DOB);
       localStorage.setItem('GPA', GPA);
+      
+      // redux
+      // dispatchAdd({ type : 'CREATE_STUDENT', payload : { id: id, Name: Name, Address: Address, DOB: DOB, GPA: GPA } });
   }
 
   return (
