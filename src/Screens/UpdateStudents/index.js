@@ -3,12 +3,14 @@ import { useState } from "react";
 import { db } from "../../firebase-config";
 import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 function UpdateStudents() {
 
   // reference to the collection
   const studentsCollectionReference = collection(db, "students");
+
 
   // consts
   const [name, setName] = useState("");
@@ -30,7 +32,6 @@ function UpdateStudents() {
             <input placeholder="GPA"  onChange={(e) => {setGpa(e.target.value)}}/>
             <div>
             <Link to={'/'}><button type="button" class="btn btn-danger">Cancel</button></Link>
-              &nbsp;
             <Link to={'/'}><button type="button" class="btn btn-success" onClick={handleOnSubmit} >Save</button></Link>
             </div>
             </form>
